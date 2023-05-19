@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13.0-alpine
+    restart: always
+    container_name: back_database
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - back
+    volumes:
+      - database:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+  back:
+    container_name: back_dev
+    build:
+      context: .
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - back
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ../React/reactapi
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - back
+    networks:
+      - back
+
+volumes:
+  database:
+
+networks:
+  back:
+    driver: bridge

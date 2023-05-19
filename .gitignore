@@ -1,0 +1,9 @@
+
+# GestionL3
+GestionL3/.env
+GestionL3/db.sqlite3
+GestionL3/database
+*.log
+
+# React
+React/reactapi/package-lock.json
