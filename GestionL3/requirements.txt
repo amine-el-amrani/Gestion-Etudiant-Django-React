@@ -4,7 +4,7 @@ diff-match-patch==20230430
 Django==4.2.14
 django-cors-headers==4.0.0
 django-import-export==3.2.0
-djangorestframework==3.14.0
+djangorestframework==3.15.2
 et-xmlfile==1.1.0
 MarkupPy==1.14
 odfpy==1.4.1
